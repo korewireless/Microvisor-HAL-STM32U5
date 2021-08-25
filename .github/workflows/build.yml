@@ -1,0 +1,25 @@
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Build docker image
+      run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t twilio-microvisor-hal .
+    - name: Build code
+      run: docker run --rm -v $(pwd)/:/home/ --name twilio-microvisor-hal twilio-microvisor-hal
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: mv_stm32u5_hal
+        path: |
+          ${{ github.workspace }}/build/libtwilio-microvisor-hal.*
+          ${{ github.workspace }}/mv_bitops.h
+          ${{ github.workspace }}/Drivers/STM32U5xx_HAL_Driver/Inc
+          ${{ github.workspace }}/Drivers/CMSIS/Device/ST/STM32U5xx/Include
+          ${{ github.workspace }}/Drivers/CMSIS/Include
