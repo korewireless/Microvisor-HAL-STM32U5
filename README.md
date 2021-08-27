@@ -27,11 +27,11 @@ RCC
 
 Building the image:
 
-        docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t microvisor-stm32u5-hal .
+        docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t twilio-microvisor-hal-stm32u5 .
 
 Running the build:
 
-        docker run -it --rm -v $(pwd)/:/home/ --name microvisor-stm32u5-hal microvisor-stm32u5-hal
+        docker run -it --rm -v $(pwd)/:/home/ --name twilio-microvisor-hal-stm32u5 twilio-microvisor-hal-stm32u5
 
 ## Building in Ubuntu
 
@@ -50,7 +50,7 @@ Getting ready to build:
 
         cmake --build build --clean-first
 
-The library will be built into `build/libmv_stm32u585_hal.a`.
+The library will be built into `build/libtwilio-microvisor-hal-stm32u5.a`.
 
 NB: The included CMakeFiles.txt is a "kitchen sink" inclusion of the HAL.  You can also restrict the included
 files from the HAL to just those your project may need.  An example of this approach can be found in our
