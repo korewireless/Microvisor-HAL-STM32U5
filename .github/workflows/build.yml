@@ -36,15 +36,15 @@ jobs:
         rm ~/.ssh/*.key
 
     - name: Build docker image
-      run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t twilio-microvisor-hal .
+      run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t twilio-microvisor-hal-stm32u5 .
     - name: Build code
-      run: docker run --rm -v $(pwd)/:/home/ --name twilio-microvisor-hal twilio-microvisor-hal
+      run: docker run --rm -v $(pwd)/:/home/ --name twilio-microvisor-hal-stm32u5 twilio-microvisor-hal-stm32u5
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: twilio-microvisor-hal
+        name: twilio-microvisor-hal-stm32u5
         path: |
-          ${{ github.workspace }}/build/libtwilio-microvisor-hal.*
+          ${{ github.workspace }}/build/libtwilio-microvisor-hal-stm32u5.*
           ${{ github.workspace }}/mv_bitops.h
           ${{ github.workspace }}/Drivers/STM32U5xx_HAL_Driver/Inc
           ${{ github.workspace }}/Drivers/CMSIS/Device/ST/STM32U5xx/Include
