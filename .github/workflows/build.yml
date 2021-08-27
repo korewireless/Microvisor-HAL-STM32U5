@@ -42,7 +42,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: mv_stm32u5_hal
+        name: twilio-microvisor-hal
         path: |
           ${{ github.workspace }}/build/libtwilio-microvisor-hal.*
           ${{ github.workspace }}/mv_bitops.h
