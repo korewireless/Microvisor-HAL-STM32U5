@@ -14,7 +14,7 @@ The key differences are that accesses to RCC are intercepted, so that the standa
 as __HAL_RCC_GPIOA_CLK_ENABLE() LL_RCC_WriteReg, etc can be used as if they were running without
 Microvisor - The intention is to make it easy to port code to Microvisor from a 'bare metal' implementation.
 
-For supported peripherals, the accesses call through to the Microvisor non-secure API (mv_uapi.h) functions
+For supported peripherals, the accesses call through to the Microvisor non-secure API (mv_api.h) functions
 mvPeriphPeek32(...) and mvPeriphPoke32(...) which enable certain registers withing supported peripherals
 read/write access to certain bits of those registers. This is particularly important for RCC, as without
 such support, non-secure code would not be able to determine bus and clock frequencies which are needed
