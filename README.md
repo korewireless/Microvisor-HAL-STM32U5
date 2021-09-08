@@ -10,7 +10,7 @@ The key difference between the STM32CubeU5 HAL and the Microvisor version is tha
 
 This ensures that standard library functions such as `__HAL_RCC_GPIOA_CLK_ENABLE()`, `LL_RCC_WriteReg()`, etc. can continue to be called as if they were running without Microvisor present. The intention is to make it as easy as possible to port a “bare metal” implementation to Microvisor.
 
-For supported peripherals, accesses are mediated by the Microvisor non-secure API functions `mvPeriphPeek32()` and `mvPeriphPoke32()`. These functions are declared in `mv_api.h` and allow certain registers within supported peripherals to have read/write access to defined bits within those registers.
+For supported peripherals, accesses are mediated by the Microvisor non-secure system call functions `mvPeriphPeek32()` and `mvPeriphPoke32()`. These functions are declared in `mv_syscalls.h` and allow certain registers within supported peripherals to have read/write access to defined bits within those registers.
 
 This is particularly important for `RCC` as without such support, non-secure code would not be able to determine the bus and clock frequencies which are needed to configure other peripherals, such as UARTs.
 
