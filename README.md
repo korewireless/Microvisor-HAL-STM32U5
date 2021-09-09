@@ -6,11 +6,11 @@ It is a repackaging and expansion on ST Microelectronics’ [STM32CubeU5](https:
 
 ## About the Microvisor port
 
-The key difference between the STM32CubeU5 HAL and the Microvisor version is that direct accesses to `RCC` by non-secure code, which are not permitted under Microvisor, are intercepted and actioned by Microvisor.
+The key difference between the STM32CubeU5 HAL and the Microvisor version is that direct accesses to `RCC` by non-secure code, which are not permitted under Microvisor, are here intercepted and actioned by Microvisor.
 
 This ensures that standard library functions such as `__HAL_RCC_GPIOA_CLK_ENABLE()`, `LL_RCC_WriteReg()`, etc. can continue to be called as if they were running without Microvisor present. The intention is to make it as easy as possible to port a “bare metal” implementation to Microvisor.
 
-For supported peripherals, accesses are mediated by the Microvisor non-secure system call functions `mvPeriphPeek32()` and `mvPeriphPoke32()`. These functions are declared in `mv_syscalls.h` and allow certain registers within supported peripherals to have read/write access to defined bits within those registers.
+For supported peripherals, accesses are mediated by the Microvisor non-secure system call functions [`mvPeriphPeek32()`](https://www.twilio.com/docs/iot/microvisor/api/device#mvperiphpeek32) and [`mvPeriphPoke32()`](https://www.twilio.com/docs/iot/microvisor/api/device#mvperiphpoke32). These functions are declared in `mv_syscalls.h` and allow certain registers within supported peripherals to have read/write access to defined bits within those registers.
 
 This is particularly important for `RCC` as without such support, non-secure code would not be able to determine the bus and clock frequencies which are needed to configure other peripherals, such as UARTs.
 
@@ -51,7 +51,7 @@ Prepare to build:
 
 The library will be built into `build/libtwilio-microvisor-hal-stm32u5.a`.
 
-**Note** The included `CMakeFiles.txt` is a “kitchen sink“ inclusion of the HAL. You can  restrict the included files from the HAL to just those your project may need. An example of this approach can be found in our [FreeRTOS sample](https://github.com/twilio/twilio-microvisor-freertos/)
+**Note** The included `CMakeFiles.txt` is a “kitchen sink“ inclusion of the HAL. However, you can restrict the included files from the HAL to just those your project may need. An example of this approach is demonstrated in our [FreeRTOS sample](https://github.com/twilio/twilio-microvisor-freertos/)
 
 You can then link your code against the Microvisor port of the Standard Peripheral Library, rather than the Standard Peripheral Library itself.
 
