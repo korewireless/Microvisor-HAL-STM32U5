@@ -26,7 +26,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32u5xx.h"
-#include "mv_api.h"
+#include "mv_syscalls.h"
 #include "mv_bitops.h"
 
 /** @addtogroup STM32U5xx_LL_Driver

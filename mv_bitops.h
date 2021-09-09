@@ -1,6 +1,6 @@
 #ifndef MV_BITOPS_H
 #define MV_BITOPS_H
-#include "mv_api.h"
+#include "mv_syscalls.h"
 
 inline static uint32_t ReadRegisterOrZeroOnError(uint32_t reg)
 {
