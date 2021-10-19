@@ -15,9 +15,6 @@ jobs:
         cat << EOF > ~/.ssh/sdk-submodule.key
         ${{ secrets.HAL_SDK_SUBMODULE_PULL_KEY }}
         EOF
-        cat << EOF > ~/.ssh/tools-submodule.key
-        ${{ secrets.HAL_TOOLS_SUBMODULE_PULL_KEY }}
-        EOF
         chmod 700 ~/.ssh/*.key
     - name: create ssh-config
       run: |
@@ -26,16 +23,10 @@ jobs:
         HostName github.com
         User git
         IdentityFile ~/.ssh/sdk-submodule.key
-
-        Host github.com-twilio-tools
-        HostName github.com
-        User git
-        IdentityFile ~/.ssh/tools-submodule.key
         EOF
     - name: force gitmodules to use key
       run: |
         sed -i -E 's#(@github.com)(:twilio/twilio-microvisor-sdk)#\1-twilio-sdk\2#g' .gitmodules
-        sed -i -E 's#(@github.com)(:twilio/twilio-microvisor-tools)#\1-twilio-tools\2#g' .gitmodules
     - name: fetch submodules manually
       run: |
         git submodule sync

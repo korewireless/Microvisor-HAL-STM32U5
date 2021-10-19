@@ -1,6 +1,3 @@
 [submodule "twilio-microvisor-sdk"]
 	path = twilio-microvisor-sdk
 	url = git@github.com:twilio/twilio-microvisor-sdk.git
-[submodule "twilio-microvisor-tools"]
-	path = twilio-microvisor-tools
-	url = git@github.com:twilio/twilio-microvisor-tools.git
