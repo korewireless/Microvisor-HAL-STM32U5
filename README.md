@@ -18,6 +18,10 @@ This is particularly important for `RCC` as without such support, non-secure cod
 
 * `RCC`
 
+#### Development tools
+
+If you are developing an application based on the HAL, you will also need to clone the [Twilio Microvisor Tools](https://github.com/twilio/twilio-microvisor-tools) repo, which contains Bundler, the utility you must run to create Microvisor Application Bundles for uploading to Twilio and subsequent over-the-air deployment to devices.
+
 ## Build with Docker
 
 Build the image:
