@@ -14,13 +14,19 @@ For supported peripherals, accesses are mediated by the Microvisor non-secure sy
 
 This is particularly important for `RCC` as without such support, non-secure code would not be able to determine the bus and clock frequencies which are needed to configure other peripherals, such as UARTs.
 
-#### Currently supported peripherals
+### Currently supported peripherals
 
 * `RCC`
 
-#### Development tools
+### Development tools
 
 If you are developing an application based on the HAL, you will also need to clone the [Twilio Microvisor Tools](https://github.com/twilio/twilio-microvisor-tools) repo, which contains Bundler, the utility you must run to create Microvisor Application Bundles for uploading to Twilio and subsequent over-the-air deployment to devices.
+
+### Documentation
+
+To make use of the HAL, you should follow Microelectronics’ [HAL documentation](https://www.st.com/content/ccc/resource/technical/document/user_manual/group2/17/c1/76/07/05/1c/4e/fb/DM00813340/files/DM00813340.pdf/jcr:content/translations/en.DM00813340.pdf) (PDF).
+
+**Note** Access to this document may require signing in to the [Microelectronics website](https://www.st.com/).
 
 ## Build with Docker
 
@@ -65,7 +71,7 @@ Alternatively, you can import the entire repository instead of importing the Sta
 
 ## License
 
-Code authored by Twilio is made available under the terms of the [Apache 2.0](LICENSE).
+Code authored by Twilio is made available under the terms of the [Apache 2.0](LICENSE) license.
 
 All other code is licensed [as described in the linked file](LICENSE-STM32CubeU5.md).
 
