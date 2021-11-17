@@ -8,33 +8,7 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
       with:
-        submodules: false
-    - name: Create ssh key
-      run: |
-        mkdir -p ~/.ssh
-        cat << EOF > ~/.ssh/sdk-submodule.key
-        ${{ secrets.HAL_SDK_SUBMODULE_PULL_KEY }}
-        EOF
-        chmod 700 ~/.ssh/*.key
-    - name: create ssh-config
-      run: |
-        cat << EOF > ~/.ssh/config
-        Host github.com-twilio-sdk
-        HostName github.com
-        User git
-        IdentityFile ~/.ssh/sdk-submodule.key
-        EOF
-    - name: force gitmodules to use key
-      run: |
-        sed -i -E 's#(@github.com)(:twilio/twilio-microvisor-sdk)#\1-twilio-sdk\2#g' .gitmodules
-    - name: fetch submodules manually
-      run: |
-        git submodule sync
-        git submodule update --init
-    - name: cleanup key
-      run: |
-        rm ~/.ssh/*.key
-
+        submodules: 'recursive'
     - name: Build docker image
       run: docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -t twilio-microvisor-hal-stm32u5 .
     - name: Build code
