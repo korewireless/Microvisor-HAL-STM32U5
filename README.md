@@ -24,9 +24,9 @@ If you are developing an application based on the HAL, you will also need to clo
 
 ### Documentation
 
-To make use of the HAL, you should follow Microelectronics’ [HAL documentation](https://www.st.com/content/ccc/resource/technical/document/user_manual/group2/17/c1/76/07/05/1c/4e/fb/DM00813340/files/DM00813340.pdf/jcr:content/translations/en.DM00813340.pdf) (PDF).
+To make use of the HAL, you should follow ST Microelectronics’ [HAL documentation](https://www.st.com/content/ccc/resource/technical/document/user_manual/group2/17/c1/76/07/05/1c/4e/fb/DM00813340/files/DM00813340.pdf/jcr:content/translations/en.DM00813340.pdf) (PDF).
 
-**Note** Access to this document may require signing in to the [Microelectronics website](https://www.st.com/).
+**Note** Access to this document may require signing in to the [ST Microelectronics website](https://www.st.com/).
 
 ## Build with Docker
 
@@ -71,12 +71,8 @@ Alternatively, you can import the entire repository instead of importing the Sta
 
 ## License
 
-Code authored by Twilio is made available under the terms of the [Apache 2.0](LICENSE) license.
+Code authored by Twilio is made available under the terms of the [Apache 2.0](LICENSE) license and is
+© 2021, Twilio.
 
-All other code is licensed [as described in the linked file](LICENSE-STM32CubeU5.md).
-
-## Copyright
-
-Code authored by Twilio is © 2021, Twilio.
-
-All other code is © 2021, [STMicroelectronics and affiliates](LICENSE-STM32CubeU5.md).
+All other code is licensed [as described in the linked file](LICENSE-STM32CubeU5.md) and is
+© 2021, [STMicroelectronics and affiliates](LICENSE-STM32CubeU5.md).
