@@ -69,6 +69,10 @@ Alternatively, you can import the entire repository instead of importing the Sta
 
 **Note** The file `mv_prescalers.c` is not required if you already have a target in your project that defines the relevant prescaler values.
 
+## Support/Feedback
+
+Please contact [Twilio Support](https://support.twilio.com/).
+
 ## License
 
 Code authored by Twilio is made available under the terms of the [Apache 2.0](LICENSE) license and is
