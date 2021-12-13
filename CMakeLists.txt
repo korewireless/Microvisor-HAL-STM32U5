@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/toolchain.cmake")
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/toolchain.cmake")
 
 project(twilio-microvisor-hal-stm32u5 VERSION 0.0.1 DESCRIPTION "Microvisor STM32U585 standard peripheral library")
 
@@ -153,4 +153,5 @@ target_link_libraries(twilio-microvisor-hal-stm32u5 LINK_PUBLIC twilio-microviso
 
 install(TARGETS ${PROJECT_NAME} 
     LIBRARY DESTINATION lib/${PROJECT_NAME}
+    ARCHIVE DESTINATION lib/${PROJECT_NAME}
     PUBLIC_HEADER DESTINATION include)
