@@ -116,6 +116,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32u5xx_hal.h"
+#include "mv_bitops.h"
 
 /** @addtogroup STM32U5xx_HAL_Driver
   * @{
@@ -418,17 +419,17 @@ void HAL_SYSTICK_CLKSourceConfig(uint32_t CLKSource)
     /* Select HCLK_DIV8 as Systick clock source */
     case SYSTICK_CLKSOURCE_HCLK_DIV8:
       CLEAR_BIT(SysTick->CTRL, SysTick_CTRL_CLKSOURCE_Msk);
-      MODIFY_REG(RCC->CCIPR1, RCC_CCIPR1_SYSTICKSEL, (0x00000000U));
+      MV_MODIFY_REG(RCC->CCIPR1, RCC_CCIPR1_SYSTICKSEL, (0x00000000U));
       break;
     /* Select LSI as Systick clock source */
     case SYSTICK_CLKSOURCE_LSI:
       CLEAR_BIT(SysTick->CTRL, SysTick_CTRL_CLKSOURCE_Msk);
-      MODIFY_REG(RCC->CCIPR1, RCC_CCIPR1_SYSTICKSEL, RCC_CCIPR1_SYSTICKSEL_0);
+      MV_MODIFY_REG(RCC->CCIPR1, RCC_CCIPR1_SYSTICKSEL, RCC_CCIPR1_SYSTICKSEL_0);
       break;
     /* Select LSE as Systick clock source */
     case SYSTICK_CLKSOURCE_LSE:
       CLEAR_BIT(SysTick->CTRL, SysTick_CTRL_CLKSOURCE_Msk);
-      MODIFY_REG(RCC->CCIPR1, RCC_CCIPR1_SYSTICKSEL, RCC_CCIPR1_SYSTICKSEL_1);
+      MV_MODIFY_REG(RCC->CCIPR1, RCC_CCIPR1_SYSTICKSEL, RCC_CCIPR1_SYSTICKSEL_1);
       break;
     default:
       /* Nothing to do */

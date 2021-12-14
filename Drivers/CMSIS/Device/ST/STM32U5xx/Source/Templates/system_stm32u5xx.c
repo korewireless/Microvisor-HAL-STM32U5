@@ -101,6 +101,7 @@
   */
 
 #include "stm32u5xx.h"
+#include "mv_bitops.h"
 #include <math.h>
 
 /**
@@ -274,7 +275,7 @@ void SystemCoreClockUpdate(void)
   float_t fracn1, pllvco;
 
   /* Get MSI Range frequency--------------------------------------------------*/
-  if(READ_BIT(RCC->ICSCR1, RCC_ICSCR1_MSIRGSEL) == 0U)
+  if(MV_READ_BIT(RCC->ICSCR1, RCC_ICSCR1_MSIRGSEL) == 0U)
   {
     /* MSISRANGE from RCC_CSR applies */
     msirange = (RCC->CSR & RCC_CSR_MSISSRANGE) >> RCC_CSR_MSISSRANGE_Pos;

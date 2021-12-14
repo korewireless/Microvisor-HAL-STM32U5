@@ -2558,7 +2558,7 @@ typedef struct
   *            @arg @ref RCC_MSIRANGE_8  MSI clock is around 3.072 MHz
   * @retval None
   */
-#define __HAL_RCC_MSI_STANDBY_RANGE_CONFIG(__MSIRANGEVALUE__) do {SET_BIT(RCC->ICSCR1, RCC_ICSCR1_MSIRGSEL);\
+#define __HAL_RCC_MSI_STANDBY_RANGE_CONFIG(__MSIRANGEVALUE__) do {MV_SET_BIT(RCC->ICSCR1, RCC_ICSCR1_MSIRGSEL);\
                                                                    MV_MODIFY_REG(RCC->CSR, RCC_CSR_MSISSRANGE,\
                                                                    (__MSIRANGEVALUE__) >> (RCC_ICSCR1_MSISRANGE_Pos -\
                                                                    RCC_CSR_MSISSRANGE_Pos));\
@@ -2575,7 +2575,7 @@ typedef struct
   *            @arg @ref RCC_MSIRANGE_8  MSI clock is around 3.072 MHz
   * @retval None
   */
-#define __HAL_RCC_MSIK_STANDBY_RANGE_CONFIG(__MSIRANGEVALUE__) do {SET_BIT(RCC->ICSCR1, RCC_ICSCR1_MSIRGSEL); \
+#define __HAL_RCC_MSIK_STANDBY_RANGE_CONFIG(__MSIRANGEVALUE__) do {MV_SET_BIT(RCC->ICSCR1, RCC_ICSCR1_MSIRGSEL); \
                                                                     MV_MODIFY_REG(RCC->CSR, RCC_CSR_MSISSRANGE,\
                                                                     (__MSIRANGEVALUE__) >> (RCC_ICSCR1_MSISRANGE_Pos -\
                                                                     RCC_CSR_MSISSRANGE_Pos));\
