@@ -24,6 +24,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32u5xx_hal.h"
+#include "mv_bitops.h"
 
 /** @addtogroup STM32U5xx_HAL_Driver
   * @{
@@ -705,7 +706,7 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *pPeriphCl
       pwrclkchanged = SET;
     }
     /* Enable write access to Backup domain */
-    SET_BIT(PWR->DBPR, PWR_DBPR_DBP);
+    MV_SET_BIT(PWR->DBPR, PWR_DBPR_DBP);
 
     /* Wait for Backup domain Write protection disable */
     tickstart = HAL_GetTick();
@@ -722,12 +723,12 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *pPeriphCl
     if (ret == HAL_OK)
     {
       /* Reset the Backup domain only if the RTC Clock source selection is modified from default */
-      tmpregister = READ_BIT(RCC->BDCR, RCC_BDCR_RTCSEL);
+      tmpregister = MV_READ_BIT(RCC->BDCR, RCC_BDCR_RTCSEL);
 
       if ((tmpregister != RCC_RTCCLKSOURCE_NO_CLK) && (tmpregister != pPeriphClkInit->RTCClockSelection))
       {
         /* Store the content of BDCR register before the reset of Backup Domain */
-        tmpregister = READ_BIT(RCC->BDCR, ~(RCC_BDCR_RTCSEL));
+        tmpregister = MV_READ_BIT(RCC->BDCR, ~(RCC_BDCR_RTCSEL));
         /* RTC Clock selection can be changed only if the Backup Domain is reset */
         __HAL_RCC_BACKUPRESET_FORCE();
         __HAL_RCC_BACKUPRESET_RELEASE();
@@ -742,7 +743,7 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *pPeriphCl
         tickstart = HAL_GetTick();
 
         /* Wait till LSE is ready */
-        while (READ_BIT(RCC->BDCR, RCC_BDCR_LSERDY) == 0U)
+        while (MV_READ_BIT(RCC->BDCR, RCC_BDCR_LSERDY) == 0U)
         {
           if ((HAL_GetTick() - tickstart) > RCC_LSE_TIMEOUT_VALUE)
           {
@@ -2427,7 +2428,7 @@ HAL_StatusTypeDef HAL_RCCEx_EnablePLL2(RCC_PLL2InitTypeDef  *PLL2Init)
   tickstart = HAL_GetTick();
 
   /* Wait till PLL2 is ready to be updated */
-  while (READ_BIT(RCC->CR, RCC_CR_PLL2RDY) != 0U)
+  while (MV_READ_BIT(RCC->CR, RCC_CR_PLL2RDY) != 0U)
   {
     if ((HAL_GetTick() - tickstart) > PLL2_TIMEOUT_VALUE)
     {
@@ -2470,7 +2471,7 @@ HAL_StatusTypeDef HAL_RCCEx_EnablePLL2(RCC_PLL2InitTypeDef  *PLL2Init)
       tickstart = HAL_GetTick();
 
       /* Wait till PLL2 is ready */
-      while (READ_BIT(RCC->CR, RCC_CR_PLL2RDY) == 0U)
+      while (MV_READ_BIT(RCC->CR, RCC_CR_PLL2RDY) == 0U)
       {
         if ((HAL_GetTick() - tickstart) > PLL2_TIMEOUT_VALUE)
         {
@@ -2499,7 +2500,7 @@ HAL_StatusTypeDef HAL_RCCEx_DisablePLL2(void)
   tickstart = HAL_GetTick();
 
   /* Wait till PLL2 is ready */
-  while (READ_BIT(RCC->CR, RCC_CR_PLL2RDY) != 0U)
+  while (MV_READ_BIT(RCC->CR, RCC_CR_PLL2RDY) != 0U)
   {
     if ((HAL_GetTick() - tickstart) > PLL2_TIMEOUT_VALUE)
     {
@@ -2509,7 +2510,7 @@ HAL_StatusTypeDef HAL_RCCEx_DisablePLL2(void)
   }
 
   /* To save power disable the PLL2 Source, FRACN and Clock outputs */
-  CLEAR_BIT(RCC->PLL2CFGR, RCC_PLL2CFGR_PLL2PEN | RCC_PLL2CFGR_PLL2QEN | RCC_PLL2CFGR_PLL2REN | RCC_PLL2CFGR_PLL2SRC | \
+  MV_CLEAR_BIT(RCC->PLL2CFGR, RCC_PLL2CFGR_PLL2PEN | RCC_PLL2CFGR_PLL2QEN | RCC_PLL2CFGR_PLL2REN | RCC_PLL2CFGR_PLL2SRC | \
             RCC_PLL2CFGR_PLL2FRACEN);
 
   return status;
@@ -2540,7 +2541,7 @@ HAL_StatusTypeDef HAL_RCCEx_EnablePLL3(RCC_PLL3InitTypeDef  *PLL3Init)
   tickstart = HAL_GetTick();
 
   /* Wait till PLL3 is ready to be updated */
-  while (READ_BIT(RCC->CR, RCC_CR_PLL3RDY) != 0U)
+  while (MV_READ_BIT(RCC->CR, RCC_CR_PLL3RDY) != 0U)
   {
     if ((HAL_GetTick() - tickstart) > PLL3_TIMEOUT_VALUE)
     {
@@ -2583,7 +2584,7 @@ HAL_StatusTypeDef HAL_RCCEx_EnablePLL3(RCC_PLL3InitTypeDef  *PLL3Init)
       tickstart = HAL_GetTick();
 
       /* Wait till PLL3 is ready */
-      while (READ_BIT(RCC->CR, RCC_CR_PLL3RDY) == 0U)
+      while (MV_READ_BIT(RCC->CR, RCC_CR_PLL3RDY) == 0U)
       {
         if ((HAL_GetTick() - tickstart) > PLL3_TIMEOUT_VALUE)
         {
@@ -2612,7 +2613,7 @@ HAL_StatusTypeDef HAL_RCCEx_DisablePLL3(void)
   tickstart = HAL_GetTick();
 
   /* Wait till PLL3 is ready */
-  while (READ_BIT(RCC->CR, RCC_CR_PLL3RDY) != 0U)
+  while (MV_READ_BIT(RCC->CR, RCC_CR_PLL3RDY) != 0U)
   {
     if ((HAL_GetTick() - tickstart) > PLL3_TIMEOUT_VALUE)
     {
@@ -2622,7 +2623,7 @@ HAL_StatusTypeDef HAL_RCCEx_DisablePLL3(void)
   }
 
   /* To save power disable the PLL3 Source and Clock outputs */
-  CLEAR_BIT(RCC->PLL3CFGR, RCC_PLL3CFGR_PLL3PEN | RCC_PLL3CFGR_PLL3QEN | RCC_PLL3CFGR_PLL3REN | RCC_PLL3CFGR_PLL3SRC | \
+  MV_CLEAR_BIT(RCC->PLL3CFGR, RCC_PLL3CFGR_PLL3PEN | RCC_PLL3CFGR_PLL3QEN | RCC_PLL3CFGR_PLL3REN | RCC_PLL3CFGR_PLL3SRC | \
             RCC_PLL3CFGR_PLL3FRACEN);
 
   return status;
@@ -2644,16 +2645,16 @@ HAL_StatusTypeDef HAL_RCCEx_EnableMSIPLLModeSelection(uint32_t MSIPLLModeSelecti
   HAL_StatusTypeDef status = HAL_ERROR;
 
   assert_param(IS_RCC_MSIPLLMODE_SELECT(MSIPLLModeSelection));
-  if (READ_BIT(RCC->CR, RCC_CR_MSIPLLEN) == 0U)
+  if (MV_READ_BIT(RCC->CR, RCC_CR_MSIPLLEN) == 0U)
   {
     /* This bit is used only if PLL mode is disabled (MSIPLLEN = 0) */
     if (MSIPLLModeSelection == RCC_MSISPLL_MODE_SEL)
     {
-      SET_BIT(RCC->CR, RCC_CR_MSIPLLSEL);
+      MV_SET_BIT(RCC->CR, RCC_CR_MSIPLLSEL);
     }
     else
     {
-      CLEAR_BIT(RCC->CR, RCC_CR_MSIPLLSEL);
+      MV_CLEAR_BIT(RCC->CR, RCC_CR_MSIPLLSEL);
     }
     status = HAL_OK;
   }
@@ -2672,10 +2673,10 @@ HAL_StatusTypeDef HAL_RCCEx_EnableMSIPLLFastStartup(void)
 {
   HAL_StatusTypeDef status = HAL_ERROR;
 
-  if (READ_BIT(RCC->CR, RCC_CR_MSIPLLEN) == RCC_CR_MSIPLLEN)
+  if (MV_READ_BIT(RCC->CR, RCC_CR_MSIPLLEN) == RCC_CR_MSIPLLEN)
   {
     /* This bit is used only if PLL mode is selected (MSIPLLEN = 1) */
-    SET_BIT(RCC->CR, RCC_CR_MSIPLLFAST);
+    MV_SET_BIT(RCC->CR, RCC_CR_MSIPLLFAST);
     status = HAL_OK;
   }
 
@@ -2691,10 +2692,10 @@ HAL_StatusTypeDef HAL_RCCEx_DisableMSIPLLFastStartup(void)
 {
   HAL_StatusTypeDef status = HAL_ERROR;
 
-  if (READ_BIT(RCC->CR, RCC_CR_MSIPLLEN) == RCC_CR_MSIPLLEN)
+  if (MV_READ_BIT(RCC->CR, RCC_CR_MSIPLLEN) == RCC_CR_MSIPLLEN)
   {
     /* This bit is used only if PLL mode is selected (MSIPLLEN = 1) */
-    CLEAR_BIT(RCC->CR, RCC_CR_MSIPLLFAST);
+    MV_CLEAR_BIT(RCC->CR, RCC_CR_MSIPLLFAST);
     status = HAL_OK;
   }
   return status;
@@ -2760,7 +2761,7 @@ void HAL_RCCEx_StandbyMSIRangeConfig(uint32_t MSIRange)
   */
 void HAL_RCCEx_EnableLSECSS(void)
 {
-  SET_BIT(RCC->BDCR, RCC_BDCR_LSECSSON);
+  MV_SET_BIT(RCC->BDCR, RCC_BDCR_LSECSSON);
 }
 
 /**
@@ -2770,7 +2771,7 @@ void HAL_RCCEx_EnableLSECSS(void)
   */
 void HAL_RCCEx_DisableLSECSS(void)
 {
-  CLEAR_BIT(RCC->BDCR, RCC_BDCR_LSECSSON);
+  MV_CLEAR_BIT(RCC->BDCR, RCC_BDCR_LSECSSON);
 }
 
 /**
@@ -2779,7 +2780,7 @@ void HAL_RCCEx_DisableLSECSS(void)
   */
 void HAL_RCCEx_LSECSS_IRQHandler(void)
 {
-  if (READ_BIT(RCC->BDCR, RCC_BDCR_LSECSSD) != 0U)
+  if (MV_READ_BIT(RCC->BDCR, RCC_BDCR_LSECSSD) != 0U)
   {
     /* RCC LSE Clock Security System interrupt user callback */
     HAL_RCCEx_LSECSS_Callback();
@@ -2836,7 +2837,7 @@ void HAL_RCCEx_EnableLSCO(uint32_t LSCOSource)
     backupchanged = SET;
   }
 
-  MODIFY_REG(RCC->BDCR, RCC_BDCR_LSCOSEL | RCC_BDCR_LSCOEN, LSCOSource | RCC_BDCR_LSCOEN);
+  MV_MODIFY_REG(RCC->BDCR, RCC_BDCR_LSCOSEL | RCC_BDCR_LSCOEN, LSCOSource | RCC_BDCR_LSCOEN);
 
   if (backupchanged == SET)
   {
@@ -2870,7 +2871,7 @@ void HAL_RCCEx_DisableLSCO(void)
     backupchanged = SET;
   }
 
-  CLEAR_BIT(RCC->BDCR, RCC_BDCR_LSCOEN);
+  MV_CLEAR_BIT(RCC->BDCR, RCC_BDCR_LSCOEN);
 
   /* Restore previous configuration */
   if (backupchanged == SET)
@@ -2892,7 +2893,7 @@ void HAL_RCCEx_DisableLSCO(void)
   */
 void HAL_RCCEx_EnableMSIPLLMode(void)
 {
-  SET_BIT(RCC->CR, RCC_CR_MSIPLLEN);
+  MV_SET_BIT(RCC->CR, RCC_CR_MSIPLLEN);
 }
 
 /**
@@ -2902,7 +2903,7 @@ void HAL_RCCEx_EnableMSIPLLMode(void)
   */
 void HAL_RCCEx_DisableMSIPLLMode(void)
 {
-  CLEAR_BIT(RCC->CR, RCC_CR_MSIPLLEN);
+  MV_CLEAR_BIT(RCC->CR, RCC_CR_MSIPLLEN);
 }
 
 /**
@@ -3006,16 +3007,16 @@ void HAL_RCCEx_CRSConfig(const RCC_CRSInitTypeDef *const pInit)
   value |= pInit->ReloadValue;
   /* Set the FELIM[7:0] bits according to ErrorLimitValue value */
   value |= (pInit->ErrorLimitValue << CRS_CFGR_FELIM_Pos);
-  WRITE_REG(CRS->CFGR, value);
+  MV_WRITE_REG(CRS->CFGR, value);
 
   /* Adjust HSI48 oscillator smooth trimming */
   /* Set the TRIM[5:0] bits according to RCC_CRS_HSI48CalibrationValue value */
-  MODIFY_REG(CRS->CR, CRS_CR_TRIM, (pInit->HSI48CalibrationValue << CRS_CR_TRIM_Pos));
+  MV_MODIFY_REG(CRS->CR, CRS_CR_TRIM, (pInit->HSI48CalibrationValue << CRS_CR_TRIM_Pos));
 
   /* START AUTOMATIC SYNCHRONIZATION*/
 
   /* Enable Automatic trimming & Frequency error counter */
-  SET_BIT(CRS->CR, CRS_CR_AUTOTRIMEN | CRS_CR_CEN);
+  MV_SET_BIT(CRS->CR, CRS_CR_AUTOTRIMEN | CRS_CR_CEN);
 }
 
 /**
@@ -3024,7 +3025,7 @@ void HAL_RCCEx_CRSConfig(const RCC_CRSInitTypeDef *const pInit)
   */
 void HAL_RCCEx_CRSSoftwareSynchronizationGenerate(void)
 {
-  SET_BIT(CRS->CR, CRS_CR_SWSYNC);
+  MV_SET_BIT(CRS->CR, CRS_CR_SWSYNC);
 }
 
 /**
@@ -3038,16 +3039,16 @@ void HAL_RCCEx_CRSGetSynchronizationInfo(RCC_CRSSynchroInfoTypeDef *pSynchroInfo
   assert_param(pSynchroInfo != (void *) NULL);
 
   /* Get the reload value */
-  pSynchroInfo->ReloadValue = (uint32_t)(READ_BIT(CRS->CFGR, CRS_CFGR_RELOAD));
+  pSynchroInfo->ReloadValue = (uint32_t)(MV_READ_BIT(CRS->CFGR, CRS_CFGR_RELOAD));
 
   /* Get HSI48 oscillator smooth trimming */
-  pSynchroInfo->HSI48CalibrationValue = (uint32_t)(READ_BIT(CRS->CR, CRS_CR_TRIM) >> CRS_CR_TRIM_Pos);
+  pSynchroInfo->HSI48CalibrationValue = (uint32_t)(MV_READ_BIT(CRS->CR, CRS_CR_TRIM) >> CRS_CR_TRIM_Pos);
 
   /* Get Frequency error capture */
-  pSynchroInfo->FreqErrorCapture = (uint32_t)(READ_BIT(CRS->ISR, CRS_ISR_FECAP) >> CRS_ISR_FECAP_Pos);
+  pSynchroInfo->FreqErrorCapture = (uint32_t)(MV_READ_BIT(CRS->ISR, CRS_ISR_FECAP) >> CRS_ISR_FECAP_Pos);
 
   /* Get Frequency error direction */
-  pSynchroInfo->FreqErrorDirection = (uint32_t)(READ_BIT(CRS->ISR, CRS_ISR_FEDIR));
+  pSynchroInfo->FreqErrorDirection = (uint32_t)(MV_READ_BIT(CRS->ISR, CRS_ISR_FEDIR));
 }
 
 /**
@@ -3152,14 +3153,14 @@ void HAL_RCCEx_CRS_IRQHandler(void)
 {
   uint32_t crserror = RCC_CRS_NONE;
   /* Get current IT flags and IT sources values */
-  uint32_t itflags = READ_REG(CRS->ISR);
-  uint32_t itsources = READ_REG(CRS->CR);
+  uint32_t itflags = MV_READ_REG(CRS->ISR);
+  uint32_t itsources = MV_READ_REG(CRS->CR);
 
   /* Check CRS SYNCOK flag  */
   if (((itflags & RCC_CRS_FLAG_SYNCOK) != 0U) && ((itsources & RCC_CRS_IT_SYNCOK) != 0U))
   {
     /* Clear CRS SYNC event OK flag */
-    WRITE_REG(CRS->ICR, CRS_ICR_SYNCOKC);
+    MV_WRITE_REG(CRS->ICR, CRS_ICR_SYNCOKC);
 
     /* user callback */
     HAL_RCCEx_CRS_SyncOkCallback();
@@ -3168,7 +3169,7 @@ void HAL_RCCEx_CRS_IRQHandler(void)
   else if (((itflags & RCC_CRS_FLAG_SYNCWARN) != 0U) && ((itsources & RCC_CRS_IT_SYNCWARN) != 0U))
   {
     /* Clear CRS SYNCWARN flag */
-    WRITE_REG(CRS->ICR, CRS_ICR_SYNCWARNC);
+    MV_WRITE_REG(CRS->ICR, CRS_ICR_SYNCWARNC);
 
     /* user callback */
     HAL_RCCEx_CRS_SyncWarnCallback();
@@ -3177,7 +3178,7 @@ void HAL_RCCEx_CRS_IRQHandler(void)
   else if (((itflags & RCC_CRS_FLAG_ESYNC) != 0U) && ((itsources & RCC_CRS_IT_ESYNC) != 0U))
   {
     /* frequency error counter reached a zero value */
-    WRITE_REG(CRS->ICR, CRS_ICR_ESYNCC);
+    MV_WRITE_REG(CRS->ICR, CRS_ICR_ESYNCC);
 
     /* user callback */
     HAL_RCCEx_CRS_ExpectedSyncCallback();
@@ -3201,7 +3202,7 @@ void HAL_RCCEx_CRS_IRQHandler(void)
       }
 
       /* Clear CRS Error flags */
-      WRITE_REG(CRS->ICR, CRS_ICR_ERRC);
+      MV_WRITE_REG(CRS->ICR, CRS_ICR_ERRC);
 
       /* user error callback */
       HAL_RCCEx_CRS_ErrorCallback(crserror);
@@ -3293,7 +3294,7 @@ static HAL_StatusTypeDef RCCEx_PLLSource_Enable(uint32_t PllSource)
   {
     case RCC_PLLSOURCE_MSI:
       /* Check whether MSI in not ready and enable it */
-      if (READ_BIT(RCC->CR, RCC_CR_MSISRDY) == 0U)
+      if (MV_READ_BIT(RCC->CR, RCC_CR_MSISRDY) == 0U)
       {
         /* Enable the Internal Multi Speed oscillator (MSI). */
         __HAL_RCC_MSI_ENABLE();
@@ -3302,7 +3303,7 @@ static HAL_StatusTypeDef RCCEx_PLLSource_Enable(uint32_t PllSource)
         tickstart = HAL_GetTick();
 
         /* Wait till MSI is ready */
-        while (READ_BIT(RCC->CR, RCC_CR_MSISRDY) == 0U)
+        while (MV_READ_BIT(RCC->CR, RCC_CR_MSISRDY) == 0U)
         {
           if ((HAL_GetTick() - tickstart) > MSI_TIMEOUT_VALUE)
           {
@@ -3315,7 +3316,7 @@ static HAL_StatusTypeDef RCCEx_PLLSource_Enable(uint32_t PllSource)
 
     case RCC_PLLSOURCE_HSI:
       /* Check whether HSI in not ready and enable it */
-      if (READ_BIT(RCC->CR, RCC_CR_HSIRDY) == 0U)
+      if (MV_READ_BIT(RCC->CR, RCC_CR_HSIRDY) == 0U)
       {
         /* Enable the Internal High Speed oscillator (HSI) */
         __HAL_RCC_HSI_ENABLE();
@@ -3324,7 +3325,7 @@ static HAL_StatusTypeDef RCCEx_PLLSource_Enable(uint32_t PllSource)
         tickstart = HAL_GetTick();
 
         /* Wait till MSI is ready */
-        while (READ_BIT(RCC->CR, RCC_CR_HSIRDY) == 0U)
+        while (MV_READ_BIT(RCC->CR, RCC_CR_HSIRDY) == 0U)
         {
           if ((HAL_GetTick() - tickstart) > HSI_TIMEOUT_VALUE)
           {
@@ -3337,16 +3338,16 @@ static HAL_StatusTypeDef RCCEx_PLLSource_Enable(uint32_t PllSource)
 
     case RCC_PLLSOURCE_HSE:
       /* Check whether HSE in not ready and enable it */
-      if (READ_BIT(RCC->CR, RCC_CR_HSERDY) == 0U)
+      if (MV_READ_BIT(RCC->CR, RCC_CR_HSERDY) == 0U)
       {
         /* Enable the External High Speed oscillator (HSE) */
-        SET_BIT(RCC->CR, RCC_CR_HSEON);
+        MV_SET_BIT(RCC->CR, RCC_CR_HSEON);
 
         /* Get Start Tick*/
         tickstart = HAL_GetTick();
 
         /* Wait till HSE is ready */
-        while (READ_BIT(RCC->CR, RCC_CR_HSERDY) == 0U)
+        while (MV_READ_BIT(RCC->CR, RCC_CR_HSERDY) == 0U)
         {
           if ((HAL_GetTick() - tickstart) > HSE_TIMEOUT_VALUE)
           {
