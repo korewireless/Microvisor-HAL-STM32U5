@@ -1910,7 +1910,7 @@ void HAL_RCC_GetClockConfig(RCC_ClkInitTypeDef  *pRCC_ClkInitStruct, uint32_t *p
   pRCC_ClkInitStruct->APB3CLKDivider = (uint32_t)(MV_READ_REG(RCC->CFGR3) & RCC_CFGR3_PPRE3);
 
   /* Get the Flash Wait State (Latency) configuration ------------------------*/
-  *pFLatency = (uint32_t)(FLASH->ACR & FLASH_ACR_LATENCY);
+  *pFLatency = (uint32_t)(MV_READ_REG(FLASH->ACR) & FLASH_ACR_LATENCY);
 }
 
 /**
@@ -2104,103 +2104,11 @@ HAL_StatusTypeDef HAL_RCC_GetConfigAttributes(uint32_t Item, uint32_t *pAttribut
             voltage range.
   * @param  msirange  MSI range value from RCC_MSIRANGE_0 to RCC_MSIRANGE_15
   * @retval HAL status
+  * @warning Not supported on Microvisor. This function returns HAL_OK.
+  *          The Microvisor kernel ensures flash latency is set correctly.
   */
 static HAL_StatusTypeDef RCC_SetFlashLatencyFromMSIRange(uint32_t msirange)
 {
-  uint32_t vos;
-  uint32_t latency;  /* default value 0WS */
-
-  if (__HAL_RCC_PWR_IS_CLK_ENABLED())
-  {
-    vos = HAL_PWREx_GetVoltageRange();
-  }
-  else
-  {
-    __HAL_RCC_PWR_CLK_ENABLE();
-    vos = HAL_PWREx_GetVoltageRange();
-    __HAL_RCC_PWR_CLK_DISABLE();
-  }
-
-  if ((vos == PWR_REGULATOR_VOLTAGE_SCALE1) || (vos == PWR_REGULATOR_VOLTAGE_SCALE2))
-  {
-
-    if (msirange < RCC_MSIRANGE_1)
-    {
-      /* MSI = 48Mhz */
-      latency = FLASH_LATENCY_1; /* 1WS */
-    }
-    else
-    {
-      /*  MSI < 48Mhz */
-      latency = FLASH_LATENCY_0; /* 0WS */
-    }
-  }
-  else
-  {
-    if (msirange < RCC_MSIRANGE_1)
-    {
-      /* MSI = 48Mhz */
-      if (vos == PWR_REGULATOR_VOLTAGE_SCALE3)
-      {
-        latency = FLASH_LATENCY_3; /* 3WS */
-      }
-      else
-      {
-        return HAL_ERROR;
-      }
-    }
-    else
-    {
-      if (msirange > RCC_MSIRANGE_2)
-
-      {
-        if (vos == PWR_REGULATOR_VOLTAGE_SCALE4)
-        {
-          if (msirange > RCC_MSIRANGE_3)
-          {
-            latency = FLASH_LATENCY_0; /* 1WS */
-          }
-          else
-          {
-            latency = FLASH_LATENCY_1; /* 0WS */
-          }
-        }
-        else
-        {
-          latency = FLASH_LATENCY_0; /* 0WS */
-        }
-      }
-      else
-      {
-        if (msirange == RCC_MSIRANGE_1)
-
-        {
-          if (vos == PWR_REGULATOR_VOLTAGE_SCALE3)
-          {
-            latency = FLASH_LATENCY_1; /* 1WS */
-          }
-          else
-          {
-            latency = FLASH_LATENCY_2; /* 2WS */
-          }
-        }
-        else
-        {
-          latency = FLASH_LATENCY_1; /* 1WS */
-        }
-      }
-    }
-  }
-
-  __HAL_FLASH_SET_LATENCY(latency);
-
-  /* Check that the new number of wait states is taken into account to access the Flash
-  memory by reading the FLASH_ACR register */
-  if ((FLASH->ACR & FLASH_ACR_LATENCY) != latency)
-  {
-    return HAL_ERROR;
-  }
-
   return HAL_OK;
 }
 

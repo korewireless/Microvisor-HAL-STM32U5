@@ -26,6 +26,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32u5xx_hal_def.h"
+#include "mv_bitops.h"
 
 /** @addtogroup STM32U5xx_HAL_Driver
   * @{
@@ -665,8 +666,9 @@ typedef struct
   *     @arg FLASH_LATENCY_14: FLASH Fourteen wait states
   *     @arg FLASH_LATENCY_15: FLASH Fifteen wait states
   * @retval None
+  * @warning Not supported on microvisor.  This macro does nothing.
   */
-#define __HAL_FLASH_SET_LATENCY(__LATENCY__)    MODIFY_REG(FLASH->ACR, FLASH_ACR_LATENCY, (__LATENCY__))
+#define __HAL_FLASH_SET_LATENCY(__LATENCY__)    do {} while (0)
 
 /**
   * @brief  Get the FLASH Latency.
@@ -689,31 +691,35 @@ typedef struct
   *     @arg FLASH_LATENCY_14: FLASH Fourteen wait states
   *     @arg FLASH_LATENCY_15: FLASH Fifteen wait states
   */
-#define __HAL_FLASH_GET_LATENCY()               READ_BIT(FLASH->ACR, FLASH_ACR_LATENCY)
+#define __HAL_FLASH_GET_LATENCY()               MV_READ_BIT(FLASH->ACR, FLASH_ACR_LATENCY)
 
 /**
   * @brief  Enable the FLASH prefetch buffer.
   * @retval None
+  * @warning Not supported on microvisor.  This macro does nothing.
   */
-#define __HAL_FLASH_PREFETCH_BUFFER_ENABLE()    SET_BIT(FLASH->ACR, FLASH_ACR_PRFTEN)
+#define __HAL_FLASH_PREFETCH_BUFFER_ENABLE()    do {} while (0)
 
 /**
   * @brief  Disable the FLASH prefetch buffer.
   * @retval None
+  * @warning Not supported on microvisor.  This macro does nothing.
   */
-#define __HAL_FLASH_PREFETCH_BUFFER_DISABLE()   CLEAR_BIT(FLASH->ACR, FLASH_ACR_PRFTEN)
+#define __HAL_FLASH_PREFETCH_BUFFER_DISABLE()   do {} while (0)
 
 /**
   * @brief  Enable the FLASH power down during Low-Power sleep mode
   * @retval none
+  * @warning Not supported on microvisor.  This macro does nothing.
   */
-#define __HAL_FLASH_SLEEP_POWERDOWN_ENABLE()    SET_BIT(FLASH->ACR, FLASH_ACR_SLEEP_PD)
+#define __HAL_FLASH_SLEEP_POWERDOWN_ENABLE()    do {} while (0)
 
 /**
   * @brief  Disable the FLASH power down during Low-Power sleep mode
   * @retval none
+  * @warning Not supported on microvisor.  This macro does nothing.
   */
-#define __HAL_FLASH_SLEEP_POWERDOWN_DISABLE()   CLEAR_BIT(FLASH->ACR, FLASH_ACR_SLEEP_PD)
+#define __HAL_FLASH_SLEEP_POWERDOWN_DISABLE()   do {} while (0)
 
 /**
   * @}
