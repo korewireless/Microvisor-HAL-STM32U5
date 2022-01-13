@@ -719,84 +719,11 @@ uint32_t HAL_FLASHEx_GetSecInversion(void)
   *            @arg FLASH_BANK_2: Flash Bank 2
   *            @arg FLASH_BANK_BOTH: Flash Bank 1 and Bank 2
   * @retval HAL Status
+  * @warning Not supported on Microvisor.  Returns HAL_ERROR
   */
 HAL_StatusTypeDef HAL_FLASHEx_EnablePowerDown(uint32_t Banks)
 {
-  HAL_StatusTypeDef status = HAL_OK;
-  uint32_t tickstart;
-
-  /* Check the parameters */
-  assert_param(IS_FLASH_BANK(Banks));
-
-  /* Request power-down mode for Bank 1 */
-  if ((Banks & FLASH_BANK_1) != 0U)
-  {
-    /* Check PD1 and PDREQ1 bits (Bank 1 is not in power-down mode and not being
-       already under power-down request) */
-    if ((FLASH->NSSR & FLASH_NSSR_PD1) != 0U)
-    {
-      status = HAL_ERROR;
-    }
-    else if ((FLASH->ACR & FLASH_ACR_PDREQ1) != 0U)
-    {
-      status = HAL_ERROR;
-    }
-    else
-    {
-      /* Unlock PDREQ1 bit */
-      WRITE_REG(FLASH->PDKEY1R, FLASH_PDKEY1_1);
-      WRITE_REG(FLASH->PDKEY1R, FLASH_PDKEY1_2);
-
-      /* Set PDREQ1 in FLASH_ACR register */
-      SET_BIT(FLASH->ACR, FLASH_ACR_PDREQ1);
-
-      /* Check PD1 bit */
-      tickstart = HAL_GetTick();
-      while (((FLASH->NSSR & FLASH_NSSR_PD1) != FLASH_NSSR_PD1))
-      {
-        if ((HAL_GetTick() - tickstart) > FLASH_TIMEOUT_VALUE)
-        {
-          return HAL_TIMEOUT;
-        }
-      }
-    }
-  }
-
-  /* Request power-down mode for Bank 2 */
-  if ((Banks & FLASH_BANK_2) != 0U)
-  {
-    /* Check PD2 and PDREQ2 bits (Bank 2 is not in power-down mode and not being
-       already under power-down request) */
-    if ((FLASH->NSSR & FLASH_NSSR_PD2) != 0U)
-    {
-      status = HAL_ERROR;
-    }
-    else if ((FLASH->ACR & FLASH_ACR_PDREQ2) != 0U)
-    {
-      status = HAL_ERROR;
-    }
-    else
-    {
-      /* Unlock PDREQ2 bit */
-      WRITE_REG(FLASH->PDKEY2R, FLASH_PDKEY2_1);
-      WRITE_REG(FLASH->PDKEY2R, FLASH_PDKEY2_2);
-
-      /* Set PDREQ2 in FLASH_ACR register */
-      SET_BIT(FLASH->ACR, FLASH_ACR_PDREQ2);
-
-      /* Check PD2 bit */
-      tickstart = HAL_GetTick();
-      while (((FLASH->NSSR & FLASH_NSSR_PD2) != FLASH_NSSR_PD2))
-      {
-        if ((HAL_GetTick() - tickstart) > FLASH_TIMEOUT_VALUE)
-        {
-          return HAL_TIMEOUT;
-        }
-      }
-    }
-  }
-
-  return status;
+  return HAL_ERROR;
 }
 
 /**
@@ -808,24 +735,11 @@ HAL_StatusTypeDef HAL_FLASHEx_EnablePowerDown(uint32_t Banks)
   *           @arg FLASH_LPM_DISABLE: Flash is in normal read mode
   *
   * @retval HAL Status
+  * @warning Not supported on Microvisor.  Returns HAL_ERROR
   */
 HAL_StatusTypeDef HAL_FLASHEx_ConfigLowPowerRead(uint32_t ConfigLPM)
 {
-  HAL_StatusTypeDef status = HAL_OK;
-
-  /* Check the parameters */
-  assert_param(IS_FLASH_CFGLPM(ConfigLPM));
-
-  /* Set LPM Bit in FLASH_ACR register */
-  MODIFY_REG(FLASH->ACR, FLASH_ACR_LPM, ConfigLPM);
-
-  /* Check that low power read mode has been activated */
-  if (READ_BIT(FLASH->ACR, FLASH_ACR_LPM) != ConfigLPM)
-  {
-    status = HAL_ERROR;
-  }
-
-  return status;
+  return HAL_ERROR;
 }
 
 /**
@@ -838,7 +752,7 @@ HAL_StatusTypeDef HAL_FLASHEx_ConfigLowPowerRead(uint32_t ConfigLPM)
   */
 uint32_t HAL_FLASHEx_GetLowPowerRead(void)
 {
-  return (FLASH->ACR & FLASH_ACR_LPM);
+  return MV_READ_BIT(FLASH->ACR, FLASH_ACR_LPM);
 }
 
 /**

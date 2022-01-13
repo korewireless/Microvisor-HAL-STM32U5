@@ -39,6 +39,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32u5xx.h"
+#include "mv_bitops.h"
 
 /** @addtogroup STM32U5xx_LL_Driver
   * @{
@@ -1292,10 +1293,10 @@ __STATIC_INLINE void LL_VREFBUF_SetTrimming(uint32_t Value)
   *         @arg @ref LL_FLASH_LATENCY_14
   *         @arg @ref LL_FLASH_LATENCY_15
   * @retval None
+  * @warning Not supported on Microvisor.  This function does nothing.
   */
 __STATIC_INLINE void LL_FLASH_SetLatency(uint32_t Latency)
 {
-  MODIFY_REG(FLASH->ACR, FLASH_ACR_LATENCY, Latency);
 }
 
 /**
@@ -1321,7 +1322,7 @@ __STATIC_INLINE void LL_FLASH_SetLatency(uint32_t Latency)
   */
 __STATIC_INLINE uint32_t LL_FLASH_GetLatency(void)
 {
-  return (uint32_t)(READ_BIT(FLASH->ACR, FLASH_ACR_LATENCY));
+  return (uint32_t)(MV_READ_BIT(FLASH->ACR, FLASH_ACR_LATENCY));
 }
 
 /**
@@ -1337,18 +1338,10 @@ __STATIC_INLINE uint32_t LL_FLASH_GetLatency(void)
   *         FLASH_PDKEYR PDKEY2_1      LL_FLASH_EnableRunPowerDown\n
   *         FLASH_PDKEYR PDKEY2_2      LL_FLASH_EnableRunPowerDown
   * @retval None
+  * @warning Not supported on Microvisor.  This function does nothing.
   */
 __STATIC_INLINE void LL_FLASH_EnableRunPowerDown(void)
 {
-  /* Following values must be written consecutively to unlock the RUN_PD bit in
-  FLASH_ACR */
-  WRITE_REG(FLASH->PDKEY1R, LL_FLASH_PDKEY1_1);
-  WRITE_REG(FLASH->PDKEY1R, LL_FLASH_PDKEY1_2);
-  WRITE_REG(FLASH->PDKEY2R, LL_FLASH_PDKEY2_1);
-  WRITE_REG(FLASH->PDKEY2R, LL_FLASH_PDKEY2_2);
-
-  /*Request to enter flash in power mode */
-  SET_BIT(FLASH->ACR, FLASH_ACR_PDREQ1 | FLASH_ACR_PDREQ2);
 }
 
 /**
@@ -1362,16 +1355,10 @@ __STATIC_INLINE void LL_FLASH_EnableRunPowerDown(void)
   *         FLASH_PDKEYR PDKEY1_1      LL_FLASH_EnableRunPowerDown\n
   *         FLASH_PDKEYR PDKEY1_2      LL_FLASH_EnableRunPowerDown\n
   * @retval None
+  * @warning Not supported on Microvisor.  This function does nothing.
   */
 __STATIC_INLINE void LL_FLASH_EnableRunPowerDownBank1(void)
 {
-  /* Following values must be written consecutively to unlock the RUN_PD bit in
-  FLASH_ACR */
-  WRITE_REG(FLASH->PDKEY1R, LL_FLASH_PDKEY1_1);
-  WRITE_REG(FLASH->PDKEY1R, LL_FLASH_PDKEY1_2);
-
-  /*Request to enter flash in power mode */
-  SET_BIT(FLASH->ACR, FLASH_ACR_PDREQ1);
 }
 
 /**
@@ -1385,16 +1372,10 @@ __STATIC_INLINE void LL_FLASH_EnableRunPowerDownBank1(void)
   *         FLASH_PDKEYR PDKEY2_1      LL_FLASH_EnableRunPowerDown\n
   *         FLASH_PDKEYR PDKEY2_2      LL_FLASH_EnableRunPowerDown\n
   * @retval None
+  * @warning Not supported on Microvisor.  This function does nothing.
   */
 __STATIC_INLINE void LL_FLASH_EnableRunPowerDownBank2(void)
 {
-  /* Following values must be written consecutively to unlock the RUN_PD bit in
-  FLASH_ACR */
-  WRITE_REG(FLASH->PDKEY2R, LL_FLASH_PDKEY2_1);
-  WRITE_REG(FLASH->PDKEY2R, LL_FLASH_PDKEY2_2);
-
-  /*Request to enter flash in power mode */
-  SET_BIT(FLASH->ACR, FLASH_ACR_PDREQ2);
 }
 
 /**
@@ -1403,20 +1384,20 @@ __STATIC_INLINE void LL_FLASH_EnableRunPowerDownBank2(void)
   *       is on-going
   * @rmtoll FLASH_ACR    SLEEP_PD      LL_FLASH_EnableSleepPowerDown
   * @retval None
+  * @warning Not supported on Microvisor.  This function does nothing.
   */
 __STATIC_INLINE void LL_FLASH_EnableSleepPowerDown(void)
 {
-  SET_BIT(FLASH->ACR, FLASH_ACR_SLEEP_PD);
 }
 
 /**
   * @brief  Disable Flash Power-down mode during Sleep or Low-power sleep mode
   * @rmtoll FLASH_ACR    SLEEP_PD      LL_FLASH_DisableSleepPowerDown
   * @retval None
+  * @warning Not supported on Microvisor.  This function does nothing.
   */
 __STATIC_INLINE void LL_FLASH_DisableSleepPowerDown(void)
 {
-  CLEAR_BIT(FLASH->ACR, FLASH_ACR_SLEEP_PD);
 }
 /**
   * @}
