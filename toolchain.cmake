@@ -25,6 +25,15 @@ set(CMAKE_C_FLAGS "-mcpu=cortex-m33 -std=gnu11 -g3 \
 set(CMAKE_C_LINK_FLAGS "-mcpu=cortex-m33 --specs=nosys.specs -Wl,--gc-sections -static \
   -Wl,--start-group -lc -lm -Wl,--end-group -mfloat-abi=soft" CACHE INTERNAL "")
 
+set(CMAKE_CXX_FLAGS "-mcpu=cortex-m33 -g3 \
+  -DUSE_CUSTOM_SYSTICK_HANDLER_IMPLEMENTATION -DUSE_HAL_DRIVER -DSTM32L552xx \
+  -DSTM32U585xx -DDEBUG -DCMSIS_device_header=\\\"stm32u585xx.h\\\" \
+  -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage \
+  -MMD -MP --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=soft -mthumb")
+
+set(CMAKE_CXX_LINK_FLAGS "-mcpu=cortex-m33 --specs=nosys.specs -Wl,--gc-sections -static \
+  -Wl,--start-group -lc -lm -Wl,--end-group -mfloat-abi=soft -u _printf_float" CACHE INTERNAL "")
+ 
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
