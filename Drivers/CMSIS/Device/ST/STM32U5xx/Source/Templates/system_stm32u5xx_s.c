@@ -110,8 +110,8 @@
   */
 
 #include "stm32u5xx.h"
-#include "partition_stm32u5xx.h"  /* Trustzone-M core secure attributes */
 #include "mv_bitops.h"
+#include "partition_stm32u5xx.h"  /* Trustzone-M core secure attributes */
 #include <math.h>
 
 /**
