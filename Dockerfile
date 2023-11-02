@@ -6,8 +6,7 @@ RUN groupadd -g $GID -o $USERNAME
 RUN useradd -m -u $UID -g $GID -o -s /bin/bash $USERNAME
 
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -o APT::Immediate-Configure=0 -y \
-  cmake gcc-arm-none-eabi
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -o APT::Immediate-Configure=0 -y cmake gcc-arm-none-eabi
 WORKDIR /home
 
 USER $USERNAME

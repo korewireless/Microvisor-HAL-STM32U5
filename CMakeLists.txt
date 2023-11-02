@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.12)
 
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/toolchain.cmake")
 
-project(twilio-microvisor-hal-stm32u5 VERSION 0.0.1 DESCRIPTION "Microvisor STM32U585 standard peripheral library")
+project(microvisor-hal-stm32u5 VERSION 0.0.2 DESCRIPTION "Microvisor STM32U585 standard peripheral library")
 
 set(MV_ARCH "stm32u5")
-add_subdirectory(twilio-microvisor-sdk)
+add_subdirectory(microvisor-sdk)
 
 if(NOT INCLUDED_HAL_FILES)
     set(INCLUDED_HAL_FILES
@@ -118,40 +118,41 @@ if(NOT INCLUDED_HAL_FILES)
         Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usart.c
         Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c
         Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_utils.c
-        mv_prescalers.c # Only needed if you don't define them yourself or via an include like Drivers/CMSIS/Device/ST/STM32U5xx/Source/Templates/system_stm32u5xx_ns.c
-    )   
+        # The next line is only needed if you don't define them yourself or use them via an
+        # include like Drivers/CMSIS/Device/ST/STM32U5xx/Source/Templates/system_stm32u5xx_ns.c
+        mv_prescalers.c
+    )
 endif()
 
-add_library(twilio-microvisor-hal-stm32u5 STATIC
+add_library(microvisor-hal-stm32u5 STATIC
     ${INCLUDED_HAL_FILES}
 )
 
 unset(INCLUDED_HAL_FILES)
 
-set_target_properties(twilio-microvisor-hal-stm32u5 PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(microvisor-hal-stm32u5 PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(microvisor-hal-stm32u5 PROPERTIES SOVERSION 1)
 
-set_target_properties(twilio-microvisor-hal-stm32u5 PROPERTIES SOVERSION 1)
+set_property(TARGET microvisor-hal-stm32u5 PROPERTY COMPILE_DEFINITIONS USE_FULL_LL_DRIVER)
 
-set_property(TARGET twilio-microvisor-hal-stm32u5 PROPERTY COMPILE_DEFINITIONS USE_FULL_LL_DRIVER)
-
-target_include_directories(twilio-microvisor-hal-stm32u5 PUBLIC .)
-target_include_directories(twilio-microvisor-hal-stm32u5 PUBLIC Drivers/CMSIS/Include)
-target_include_directories(twilio-microvisor-hal-stm32u5 PUBLIC Drivers/CMSIS/Device/ST/STM32U5xx/Include)
-target_include_directories(twilio-microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc)
-target_include_directories(twilio-microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Src)
-target_include_directories(twilio-microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc/Legacy)
+target_include_directories(microvisor-hal-stm32u5 PUBLIC .)
+target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/CMSIS/Include)
+target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/CMSIS/Device/ST/STM32U5xx/Include)
+target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc)
+target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Src)
+target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc/Legacy)
 
 if(NOT CONFIG_DIRECTORY)
-    set(CONFIG_DIRECTORY
-        Config
-    )
+    set(CONFIG_DIRECTORY Config)
 endif()
-target_include_directories(twilio-microvisor-hal-stm32u5 PUBLIC ${CONFIG_DIRECTORY})
+
+target_include_directories(microvisor-hal-stm32u5 PUBLIC ${CONFIG_DIRECTORY})
 unset(CONFIG_DIRECTORY)
 
-target_link_libraries(twilio-microvisor-hal-stm32u5 LINK_PUBLIC twilio-microvisor-sdk)
+target_link_libraries(microvisor-hal-stm32u5 LINK_PUBLIC microvisor-sdk)
 
-install(TARGETS ${PROJECT_NAME} 
+install(TARGETS ${PROJECT_NAME}
     LIBRARY DESTINATION lib/${PROJECT_NAME}
     ARCHIVE DESTINATION lib/${PROJECT_NAME}
-    PUBLIC_HEADER DESTINATION include)
+    PUBLIC_HEADER DESTINATION include
+)
