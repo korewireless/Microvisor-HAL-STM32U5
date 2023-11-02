@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/toolchain.cmake")
 
-project(microvisor-hal-stm32u5 VERSION 0.0.2 DESCRIPTION "Microvisor STM32U585 standard peripheral library")
+project(Microvisor-HAL-STM32U5 VERSION 0.0.2 DESCRIPTION "Microvisor STM32U585 standard peripheral library")
 
 set(MV_ARCH "stm32u5")
 add_subdirectory(Microvisor-SDK)
@@ -124,32 +124,32 @@ if(NOT INCLUDED_HAL_FILES)
     )
 endif()
 
-add_library(microvisor-hal-stm32u5 STATIC
+add_library(Microvisor-HAL-STM32U5 STATIC
     ${INCLUDED_HAL_FILES}
 )
 
 unset(INCLUDED_HAL_FILES)
 
-set_target_properties(microvisor-hal-stm32u5 PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(microvisor-hal-stm32u5 PROPERTIES SOVERSION 1)
+set_target_properties(Microvisor-HAL-STM32U5 PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(Microvisor-HAL-STM32U5 PROPERTIES SOVERSION 1)
 
-set_property(TARGET microvisor-hal-stm32u5 PROPERTY COMPILE_DEFINITIONS USE_FULL_LL_DRIVER)
+set_property(TARGET Microvisor-HAL-STM32U5 PROPERTY COMPILE_DEFINITIONS USE_FULL_LL_DRIVER)
 
-target_include_directories(microvisor-hal-stm32u5 PUBLIC .)
-target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/CMSIS/Include)
-target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/CMSIS/Device/ST/STM32U5xx/Include)
-target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc)
-target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Src)
-target_include_directories(microvisor-hal-stm32u5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc/Legacy)
+target_include_directories(Microvisor-HAL-STM32U5 PUBLIC .)
+target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/CMSIS/Include)
+target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/CMSIS/Device/ST/STM32U5xx/Include)
+target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc)
+target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Src)
+target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc/Legacy)
 
 if(NOT CONFIG_DIRECTORY)
     set(CONFIG_DIRECTORY Config)
 endif()
 
-target_include_directories(microvisor-hal-stm32u5 PUBLIC ${CONFIG_DIRECTORY})
+target_include_directories(Microvisor-HAL-STM32U5 PUBLIC ${CONFIG_DIRECTORY})
 unset(CONFIG_DIRECTORY)
 
-target_link_libraries(microvisor-hal-stm32u5 LINK_PUBLIC microvisor-sdk)
+target_link_libraries(Microvisor-HAL-STM32U5 LINK_PUBLIC microvisor-sdk)
 
 install(TARGETS ${PROJECT_NAME}
     LIBRARY DESTINATION lib/${PROJECT_NAME}
