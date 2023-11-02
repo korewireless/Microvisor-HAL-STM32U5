@@ -1,3 +1,3 @@
-[submodule "microvisor-sdk"]
-	path = microvisor-sdk
-	url = https://github.com/korewireless/Microvisor-SDK
+[submodule "twilio-microvisor-sdk"]
+	path = twilio-microvisor-sdk
+	url = https://github.com/twilio/twilio-microvisor-sdk
