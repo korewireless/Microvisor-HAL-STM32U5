@@ -1,0 +1,3 @@
+[submodule "Microvisor-SDK"]
+	path = Microvisor-SDK
+	url = https://github.com/korewireless/Microvisor-SDK

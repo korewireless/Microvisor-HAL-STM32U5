@@ -5,7 +5,7 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/toolchain.cmake")
 project(microvisor-hal-stm32u5 VERSION 0.0.2 DESCRIPTION "Microvisor STM32U585 standard peripheral library")
 
 set(MV_ARCH "stm32u5")
-add_subdirectory(microvisor-sdk)
+add_subdirectory(Microvisor-SDK)
 
 if(NOT INCLUDED_HAL_FILES)
     set(INCLUDED_HAL_FILES
