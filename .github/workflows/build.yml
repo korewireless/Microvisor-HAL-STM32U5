@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: 'recursive'
     - name: Build docker image
@@ -19,9 +19,9 @@ jobs:
     - name: Build code
       run: docker run --rm -v $(pwd)/:/home/ --name microvisor-hal-stm32u5-lib microvisor-hal-stm32u5-image
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: twilio-microvisor-hal-stm32u5
+        name: microvisor-hal-stm32u5
         path: |
           ${{ github.workspace }}/build/libmicrovisor-hal-stm32u5.*
           ${{ github.workspace }}/mv_bitops.h
