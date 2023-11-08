@@ -28,3 +28,4 @@ jobs:
           ${{ github.workspace }}/Drivers/STM32U5xx_HAL_Driver/Inc
           ${{ github.workspace }}/Drivers/CMSIS/Device/ST/STM32U5xx/Include
           ${{ github.workspace }}/Drivers/CMSIS/Include
+        if-no-files-found: error
