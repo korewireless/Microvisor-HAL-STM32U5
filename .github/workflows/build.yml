@@ -23,7 +23,7 @@ jobs:
       with:
         name: microvisor-hal-stm32u5
         path: |
-          ${{ github.workspace }}/build/libmicrovisor-hal-stm32u5.*
+          ${{ github.workspace }}/build/libMicrovisor-HAL-STM32U5.*
           ${{ github.workspace }}/mv_bitops.h
           ${{ github.workspace }}/Drivers/STM32U5xx_HAL_Driver/Inc
           ${{ github.workspace }}/Drivers/CMSIS/Device/ST/STM32U5xx/Include

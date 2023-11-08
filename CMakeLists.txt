@@ -124,32 +124,35 @@ if(NOT INCLUDED_HAL_FILES)
     )
 endif()
 
-add_library(Microvisor-HAL-STM32U5 STATIC
+add_library(${PROJECT_NAME} STATIC
     ${INCLUDED_HAL_FILES}
 )
 
 unset(INCLUDED_HAL_FILES)
 
-set_target_properties(Microvisor-HAL-STM32U5 PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(Microvisor-HAL-STM32U5 PROPERTIES SOVERSION 1)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 1)
+#For lowercase output
+#string(TOLOWER ${PROJECT_NAME} LC_PROJECT_NAME)
+#set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${LC_PROJECT_NAME})
 
-set_property(TARGET Microvisor-HAL-STM32U5 PROPERTY COMPILE_DEFINITIONS USE_FULL_LL_DRIVER)
+set_property(TARGET ${PROJECT_NAME} PROPERTY COMPILE_DEFINITIONS USE_FULL_LL_DRIVER)
 
-target_include_directories(Microvisor-HAL-STM32U5 PUBLIC .)
-target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/CMSIS/Include)
-target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/CMSIS/Device/ST/STM32U5xx/Include)
-target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc)
-target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Src)
-target_include_directories(Microvisor-HAL-STM32U5 PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc/Legacy)
+target_include_directories(${PROJECT_NAME} PUBLIC .)
+target_include_directories(${PROJECT_NAME} PUBLIC Drivers/CMSIS/Include)
+target_include_directories(${PROJECT_NAME} PUBLIC Drivers/CMSIS/Device/ST/STM32U5xx/Include)
+target_include_directories(${PROJECT_NAME} PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc)
+target_include_directories(${PROJECT_NAME} PUBLIC Drivers/STM32U5xx_HAL_Driver/Src)
+target_include_directories(${PROJECT_NAME} PUBLIC Drivers/STM32U5xx_HAL_Driver/Inc/Legacy)
 
 if(NOT CONFIG_DIRECTORY)
     set(CONFIG_DIRECTORY Config)
 endif()
 
-target_include_directories(Microvisor-HAL-STM32U5 PUBLIC ${CONFIG_DIRECTORY})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CONFIG_DIRECTORY})
 unset(CONFIG_DIRECTORY)
 
-target_link_libraries(Microvisor-HAL-STM32U5 LINK_PUBLIC microvisor-sdk)
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC microvisor-sdk)
 
 install(TARGETS ${PROJECT_NAME}
     LIBRARY DESTINATION lib/${PROJECT_NAME}
