@@ -76,7 +76,7 @@ Alternatively, you can import the entire repository instead of importing the Sta
 ## License
 
 Code authored by KORE Wireless is made available under the terms of the [Apache 2.0](LICENSE) license and is
-© 2021-23, KORE Wireless.
+© 2021-24, KORE Wireless.
 
 All other code is licensed [as described in the linked file](LICENSE-STM32CubeU5.md) and is
 © 2021, [STMicroelectronics and affiliates](LICENSE-STM32CubeU5.md).
